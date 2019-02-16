@@ -33,7 +33,7 @@ def pic2pdf(input_path, output_path):
             if water_mark(input_path + '/' + x, output_path + '/' + x):
                 pic_name.append(x)
 
-    if len(pic_name)<2:
+    if len(pic_name)<1:
         return
     im1 = Image.open(output_path + '/' + pic_name[0])
     pic_name.pop(0)
