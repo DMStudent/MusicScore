@@ -33,7 +33,7 @@ def pic2pdf(input_path, output_path):
             if water_mark(input_path + '/' + x, output_path + '/' + x):
                 pic_name.append(x)
 
-    if len(pic_name)<1:
+    if len(pic_name) < 1:
         return
     im1 = Image.open(output_path + '/' + pic_name[0])
     pic_name.pop(0)
@@ -62,7 +62,7 @@ def pic2pdf_list(song_list):
     for i in range(list_num):
         item = song_list[i]
         song = item['Song']
-        print i, song['ChineseSongName']
+        print i, song['ChineseSongName'].encode("utf-8")
         input_path = u'./result/' + song['ChineseSongName']
         output_path = u'./pdf/' + song['ChineseSongName']
         input_path = input_path.encode("utf-8")
@@ -81,7 +81,7 @@ def pic2pdf_list(song_list):
 
 def water_mark(input_path, output_path):
     img = cv2.imread(input_path)
-    if img == None:
+    if img is None:
         return False
 
     # 图片二值化处理，把[240, 240, 240]~[255, 255, 255]以外的颜色变成0
@@ -113,19 +113,18 @@ def water_mark(input_path, output_path):
 
 
 if __name__ == '__main__':
-    water_mark("/search/wangyuan/heba/34.png", "11")
     with open("./config/record.json", 'r') as load_f:
         song_list = json.load(load_f)
-    ref_day = datetime.date(2019, 2, 13)
+    ref_day = datetime.date(2019, 2, 15)
     today = datetime.date.today()
     diff_day = today - ref_day
     page = diff_day.days
-    begin = 300*page
-    end = min(300*(page+1), len(song_list))
+    begin = 500*page + 5000
+    end = min(500*(page+1) + 5000, len(song_list))
     if begin > end:
         print 'over!'
         song_list = []
     else:
         song_list = song_list[begin:end]
     pic2pdf_list(song_list)
-    # print page
+    print page
